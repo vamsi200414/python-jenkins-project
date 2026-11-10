@@ -3,12 +3,12 @@ pipeline {
 	stages {
 		stage('testing') {
 			steps {
-				sh test -f app.py
+				sh 'test -f app.py'
 			}
 		}
 		stage('RUN PYTHON APPLICATION') {
 			steps {
-				python3 app.py
+				sh 'python3 app.py'
 			}
 		}
 	}
