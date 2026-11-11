@@ -1,4 +1,4 @@
-# This file just reflects the ways of writting jenkins file in different ways
+# This file just reflects the different ways of writting jenkins script
 
 ################################################################
 # 1st way - This way jenkins just choose any available agent to execute the script and here to execute it successfully, the nginx should be installed on 
