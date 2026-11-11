@@ -1,0 +1,67 @@
+# This file just reflects the ways of writting jenkins file in different ways
+
+################################################################
+# 1st way - This way jenkins just choose any available agent to execute the script and here to execute it successfully, the nginx should be installed on 
+#	    jenkins agent.
+################################################################
+
+pipeline {
+	agent any
+	stages {
+		stage ('1st stage') {
+			steps {
+				sh 'nginx --version'
+			}
+		}
+	}
+}
+
+
+################################################################
+# 2nd way - This way jenkins chooses the docker as agent and creates a container, starts it and executes the specified command inside the container and once# 		execution is done, jenkins docker plugin destroys the created docker container automatically.
+################################################################
+
+pipeline {
+	agent {
+		docker { image 'nginx'}
+	}
+	stages {
+		stage ('1st stage') {
+			steps {
+				sh 'nginx --version'
+			}
+		}
+	}
+}
+
+
+
+###############################################################
+# 3rd way - This way jenkins chooses the docker as agent for step 1 and creates a nginx container, starts it and executes the specified command inside the 
+#	    container and once the execution is done, jenkins destroys the nginx container automatically. For step 2 , jenkins docker plugin creates a 
+#	    node-js container using node:alpine docker image, starts the container and executes 'node --version' inside the container and once the execution#		is done, docker plugin automatically destroys the node-js container
+###############################################################
+
+pipeline {
+	agent none
+	stages {
+		stage ('1st stage') {
+			agent {
+				docker { image 'nginx'}
+			}
+			steps {
+				sh 'nginx --version'
+			}
+		}
+		
+		stage ('2nd stage') {
+			agent {
+				docker { image 'node-js'}
+			}
+			steps {
+				sh 'node-js --version'
+			}
+		}
+	}
+}
+
